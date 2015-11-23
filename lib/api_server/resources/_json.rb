@@ -22,17 +22,26 @@ module Resources
 
     # Всегда возвращает массив [result, error]
     def _params
-      result = [nil, nil]
       ct = request.headers["content-type"]
-      return result unless Resources::VALID_CONTENT_TYPES.include? ct
+      return [nil, {error: "invalid content-type"}] unless _content_type_valid?(ct)
       body = request.body.to_s
       return [nil, { error: "empty body" }] if body.nil? || body.empty?
 
-      case ct
+      _parse_body(ct, body)
+    end
+
+    def _content_type_valid?(content_type)
+      Resources::VALID_CONTENT_TYPES.include? content_type
+    end
+
+    def _parse_body(content_type, body)
+      case content_type
         when "application/json; charset=utf-8"
           _parse_json(body)
         when "gzip/json; charset=utf-8"
-          _parse_gzip_json()
+          _parse_gzip_json(body)
+        else
+          [nil, {error: "parse body"}]
       end
     end
 
@@ -48,7 +57,6 @@ module Resources
     end
 
     def _parse_gzip_json(body)
-      err = nil
       decoded_body, err = _decode_gzip(body)
       return [nil, err] if err
       _parse_json(decoded_body)

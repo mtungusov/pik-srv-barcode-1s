@@ -11,13 +11,24 @@ class Resources::Watchdog < Resources::JsonResource
 
   def process_post
     @params, err = _params
+
+    if $DEBUG
+      ApiServer.logger.debug "params: #{@params}" if @params
+      ApiServer.logger.debug "err: #{err}" if err
+    end
+
     result = if err
             err
           elsif !_command_valid?(@params.fetch('command', nil))
             { error: "not valid command" }
           else
             RESPONSE
-          end
+             end
+
+    if $DEBUG
+      ApiServer.logger.debug "result: #{result}" if result
+    end
+
     response.body = result.to_json
     true
   end

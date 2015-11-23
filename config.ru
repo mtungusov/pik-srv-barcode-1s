@@ -6,4 +6,6 @@ $: << 'lib'
 require 'celluloid/current'
 require 'api_server'
 
+$DEBUG = false
+
 run ApiServer::Application.adapter
