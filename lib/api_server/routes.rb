@@ -1,8 +1,7 @@
 module ApiServer
   Application = Webmachine::Application.new do |app|
     app.routes do
-      # add [], Resources::Home
-      add [], Resources::Watchdog
+      add ['ping'], Resources::Ping
     end
 
     app.configure do |config|

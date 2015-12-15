@@ -1,11 +1,11 @@
-# bundle exec puma -e 'development' -C config/puma.rb
-
 $: << 'lib'
 
-# require 'pry'
+require 'pry'
+
 require 'celluloid/current'
 require 'api_server'
+require 'json_rpc'
 
-$DEBUG = false
+$DEBUG = true
 
 run ApiServer::Application.adapter

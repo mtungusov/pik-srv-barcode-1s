@@ -3,7 +3,7 @@ require 'zlib'
 require 'stringio'
 
 module Resources
-  # API_AUTH_HEADER = /^Api_Auth (.*)$/.freeze
+  API_AUTH_HEADER = /^Api_Auth (.*)$/.freeze
   VALID_CONTENT_TYPES = [
       "application/json; charset=utf-8",
       "gzip/json; charset=utf-8"
@@ -23,9 +23,9 @@ module Resources
     # Всегда возвращает массив [result, error]
     def _params
       ct = request.headers["content-type"]
-      return [nil, {error: "invalid content-type"}] unless _content_type_valid?(ct)
+      return [nil, {message: "invalid content-type"}] unless _content_type_valid?(ct)
       body = request.body.to_s
-      return [nil, { error: "empty body" }] if body.nil? || body.empty?
+      return [nil, {message: "empty body"}] if body.nil? || body.empty?
 
       _parse_body(ct, body)
     end
@@ -41,17 +41,17 @@ module Resources
         when "gzip/json; charset=utf-8"
           _parse_gzip_json(body)
         else
-          [nil, {error: "parse body"}]
+          [nil, {message: "invalid content-type"}]
       end
     end
 
     def _parse_json(body)
       begin
         err = nil
-        result = JSON.parse(body)
+        result = JSON.parse body, symbolize_names: true
       rescue Exception => e
         result = nil
-        err = { error: e.message }
+        err = {message: e.message}
       end
       [result, err]
     end
@@ -71,9 +71,21 @@ module Resources
       rescue Exception => e
         sio.close
         result = nil
-        err = { error: e.message }
+        err = {message: e.message}
       end
       [result, err]
+    end
+  end
+
+  class JsonAuthResource < JsonResource
+    def is_authorized?(authorization_header)
+      if authorization_header =~ API_AUTH_HEADER
+        _auth_by_session_key $1
+      end
+    end
+
+    def _auth_by_session_key(session_key)
+      session_key == 'qwerty'
     end
   end
 
