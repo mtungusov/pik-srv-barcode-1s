@@ -8,7 +8,7 @@ class Resources::Ping < Resources::JsonResource
   def process_post
     data, err = _check_params
     ApiServer.logger.debug "data: #{data}" if $DEBUG
-    # binding.pry
+
     req_id = data ? data[:id] : nil
     result = if err
                ApiServer.logger.debug "err: #{err}" if $DEBUG

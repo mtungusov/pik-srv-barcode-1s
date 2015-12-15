@@ -7,6 +7,6 @@ end
 
 
 require_relative 'resources/_json'
-# require_relative 'resources/home'
 require_relative 'resources/ping'
 require_relative 'resources/topics'
+require_relative 'resources/topic'
