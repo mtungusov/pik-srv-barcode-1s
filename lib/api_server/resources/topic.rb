@@ -20,10 +20,23 @@ class Resources::Topic < Resources::JsonAuthResource
 
   def _process(data)
     ApiServer.logger.debug "Data: #{data}" if $DEBUG
+    # TODO
+    # process obj from data
+    # process data
     [{offset: 99}, nil]
   end
 
   private
+
+  def _process_one(obj)
+    ApiServer.logger.debug "Obj: #{obj}" if $DEBUG
+    o, err = _check_obj(obj)
+  end
+
+  def _check_obj(obj)
+    return [nil, {message: 'Empty object'}] if obj.nil?
+    return [nil, {message: 'Object is not Hash'}] unless obj.is_a? Hash
+  end
 
   def _check_params
     body, err = _params
