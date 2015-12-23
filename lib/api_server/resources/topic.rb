@@ -4,12 +4,12 @@ class Resources::Topic < Resources::JsonAuthResource
   end
 
   def process_post
-    data, err = _check_params
+    data, err = _get_data
     unless err
       r, err = _process(data)
     end
     result = if err
-               ApiServer.logger.debug "Error: #{err}" if $DEBUG
+               ApiServer.logger.error "Error: #{err}"
                { error: err }
              else
                { result: r }
@@ -38,17 +38,13 @@ class Resources::Topic < Resources::JsonAuthResource
     return [nil, {message: 'Object is not Hash'}] unless obj.is_a? Hash
   end
 
-  def _check_params
+  def _get_data
     body, err = _params
     ApiServer.logger.debug "Body: #{body}" if $DEBUG
     return [nil, err] if err
-    return [nil, {message: 'Empty body'}] if body.nil?
-    return [nil, {message: 'Body is not Hash'}] unless body.is_a? Hash
-    return [nil, {message: 'Empty body'}] if body.empty?
+    return [nil, {message: 'Invalid or empty body'}] unless ApiServer::Validator.valid_request_body? body
     data = body[:data]
-    return [nil, {message: 'Empty data'}] if data.nil?
-    return [nil, {message: 'Data is not Array'}] unless data.is_a? Array
-    return [nil, {message: 'Empty data'}] if data.empty?
+    return [nil, {message: 'Invalid of empty data'}] unless ApiServer::Validator.valid_request_data? data
     [data, nil]
   end
 
