@@ -4,10 +4,9 @@ class Resources::Topic < Resources::JsonAuthResource
   end
 
   def process_post
-    data, err = _get_data
-    unless err
-      r, err = _process(data)
-    end
+    topic, err = _get_topic
+    data, err = _get_data unless err
+    r = _process(topic, data) unless err
     result = if err
                ApiServer.logger.error "Error: #{err}"
                { error: err }
@@ -18,24 +17,39 @@ class Resources::Topic < Resources::JsonAuthResource
     true
   end
 
-  def _process(data)
+  def _process(topic, data)
     ApiServer.logger.debug "Data: #{data}" if $DEBUG
-    # TODO
-    # process obj from data
-    # process data
-    [{offset: 99}, nil]
+    data.inject({processed: 0}) do |acc, obj|
+      r = _process_one(topic, obj)
+      if r
+        acc[:offset] = r
+        acc[:processed] = acc[:processed].next
+      end
+      acc
+    end.merge({topic: topic})
   end
 
   private
 
-  def _process_one(obj)
+  def _process_one(topic, obj)
     ApiServer.logger.debug "Obj: #{obj}" if $DEBUG
-    o, err = _check_obj(obj)
+    unless ApiServer::Validator.valid_request_data_obj? obj
+      ApiServer.logger.error "Invalid obj: #{obj}"
+      return nil
+    end
+
+    _add_object_into(topic, obj[:guid], obj)
+  rescue Exception => e
+    ApiServer.logger.error "_process_one: #{e.message}"
+    nil
   end
 
-  def _check_obj(obj)
-    return [nil, {message: 'Empty object'}] if obj.nil?
-    return [nil, {message: 'Object is not Hash'}] unless obj.is_a? Hash
+  def _add_object_into(topic, key, obj)
+    ApiServer.logger.debug "Add into topic: #{topic}, key: #{key}, obj: #{obj}" if $DEBUG
+    # TODO
+    # insert into kafka
+    offset = 91
+    offset
   end
 
   def _get_data
@@ -48,7 +62,9 @@ class Resources::Topic < Resources::JsonAuthResource
     [data, nil]
   end
 
-  def _topic_name
-    request.path_info[:topic_name]
+  def _get_topic
+    topic = request.path_info[:topic_name]
+    return [nil, {message: 'Invalid topic name'}] unless ApiServer::Validator.valid_request_topic? topic
+    [topic, nil]
   end
 end
