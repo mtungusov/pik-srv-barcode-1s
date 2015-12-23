@@ -1,3 +1,5 @@
+module Kafka; end
+
 module Kafka::Permissions
   module_function
 

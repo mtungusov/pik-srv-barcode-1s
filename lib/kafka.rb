@@ -1,5 +1,4 @@
 module Kafka; end
-require 'kafka/permissions'
 
 module Kafka
   module_function

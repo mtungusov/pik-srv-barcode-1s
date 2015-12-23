@@ -34,6 +34,9 @@ class Resources::Topic < Resources::JsonAuthResource
   def _process_one(topic, obj)
     ApiServer.logger.debug "Obj: #{obj}" if $DEBUG
     unless ApiServer::Validator.valid_request_data_obj? obj
+      # TODO
+      # validate obj by topic
+      
       ApiServer.logger.error "Invalid obj: #{obj}"
       return nil
     end

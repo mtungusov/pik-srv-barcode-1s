@@ -1,3 +1,5 @@
+require 'kafka/permissions'
+
 module ApiServer::Validator
   module_function
 
