@@ -2,6 +2,7 @@ $: << 'lib'
 
 require 'pry'
 
+require 'java'
 require 'celluloid/current'
 require 'api_server'
 require 'json_rpc'
