@@ -7,7 +7,7 @@ class Workers::Producer
 
   def initialize(options)
     @log = ApiServer.logger
-    log.debug "ProducerPandom starting up..." if $DEBUG
+    log.debug "Producer starting up..." if $DEBUG
     @producer = Kafka::Producer.new(options[:producer], options[:timeout])
   end
 

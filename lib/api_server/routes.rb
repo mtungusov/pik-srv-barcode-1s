@@ -3,7 +3,8 @@ module ApiServer
     app.routes do
       add ['ping'], Resources::Ping
       add ['topics'], Resources::Topics
-      add ['topics', :topic_name], Resources::Topic
+      add ['topics', :topic], Resources::Topic
+      add ['topics', :topic, :guid], Resources::TopicDelete
     end
 
     app.configure do |config|

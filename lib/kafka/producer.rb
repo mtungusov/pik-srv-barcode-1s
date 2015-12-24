@@ -43,7 +43,7 @@ class Kafka::Producer
   end
 
   def _create_data(message)
-    message.to_json
+    message.to_json if message
   end
 
   def _send_msg_async(product_record)

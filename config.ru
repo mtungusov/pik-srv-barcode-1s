@@ -1,8 +1,10 @@
 $: << 'lib'
 
-require 'pry'
+if ENV['BARCODE_1S_ENV'] == 'development'
+  require 'pry'
+  $DEBUG = true
+end
 
-$DEBUG = true
 $kf_con = 'kafka.dev:9092'
 
 require 'java'

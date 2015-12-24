@@ -9,50 +9,41 @@ class Resources::Topic < Resources::JsonAuthResource
     r = _process(topic, data) unless err
     result = if err
                ApiServer.logger.error "Error: #{err}"
-               { error: err }
+               {error: err}
              else
-               { result: r }
+               {result: r}
              end
     response.body = result.to_json
     true
   end
 
+  private
+
   def _process(topic, data)
     ApiServer.logger.debug "Data: #{data}" if $DEBUG
     data.inject({processed: 0}) do |acc, obj|
-      r = _process_one(topic, obj)
-      if r
-        acc[:offset] = r
-        acc[:processed] = acc[:processed].next
-      end
+      acc[:processed] = acc[:processed].next if _process_one(topic, obj)
       acc
     end.merge({topic: topic})
   end
 
-  private
-
   def _process_one(topic, obj)
     ApiServer.logger.debug "Obj: #{obj}" if $DEBUG
-    unless ApiServer::Validator.valid_request_data_obj? obj
-      # TODO
-      # validate obj by topic
-      
+    unless ApiServer::Validator.valid_request_data_obj?(topic, obj)
       ApiServer.logger.error "Invalid obj: #{obj}"
-      return nil
+      return false
     end
-
     _add_object_into(topic, obj[:guid], obj)
   rescue Exception => e
     ApiServer.logger.error "_process_one: #{e.message}"
-    nil
+    false
   end
 
   def _add_object_into(topic, key, obj)
-    ApiServer.logger.debug "Add into topic: #{topic}, key: #{key}, obj: #{obj}" if $DEBUG
-    # TODO
-    # insert into kafka
-    offset = 91
-    offset
+    m_key = key.to_s
+    ApiServer.logger.debug "Add into topic: #{topic}, key: #{m_key}, obj: #{obj}" if $DEBUG
+    _, e = Celluloid::Actor[:kafka_producer].send_message(topic, m_key, obj)
+    e.nil?
   end
 
   def _get_data
@@ -66,7 +57,7 @@ class Resources::Topic < Resources::JsonAuthResource
   end
 
   def _get_topic
-    topic = request.path_info[:topic_name]
+    topic = request.path_info[:topic]
     return [nil, {message: 'Invalid topic name'}] unless ApiServer::Validator.valid_request_topic? topic
     [topic, nil]
   end

@@ -21,9 +21,10 @@ module ApiServer::Validator
     false
   end
 
-  def valid_request_data_obj?(obj)
+  def valid_request_data_obj?(topic, obj)
     return false unless obj.is_a? Hash
     return false if obj.empty?
+    return false unless Kafka::Permissions.valid_topic_fields?(topic, obj.keys)
     return false unless obj[:guid].is_a?(::String) || obj[:guid].is_a?(::Fixnum)
 
     true
