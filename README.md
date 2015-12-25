@@ -1,5 +1,6 @@
 # Dev
 export ZK="kafka.dev:2181"
+export KF="kafka.dev:9092"
 export KF_RF=1
 
 ## Topics

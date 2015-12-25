@@ -32,6 +32,7 @@ GEM
       spoon (~> 0.0)
     puma (2.15.3-java)
     rack (1.6.4)
+    settingslogic (2.0.9)
     slop (3.6.0)
     spoon (0.0.4)
       ffi
@@ -50,6 +51,7 @@ DEPENDENCIES
   pry
   puma
   rack
+  settingslogic
   webmachine
 
 BUNDLED WITH

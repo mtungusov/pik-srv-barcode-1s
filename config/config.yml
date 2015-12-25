@@ -1,0 +1,14 @@
+---
+defaults: &defaults
+  connection:
+    kafka: "kafka.dev:9092"
+    timeout_in_ms: 500
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  connection:
+    kafka: "kbr01dsk2.dsk2.picompany.ru:9092,kbr02dsk2.dsk2.picompany.ru:9092,kbr03dsk2.dsk2.picompany.ru:9092"
+    timeout_in_ms: 500

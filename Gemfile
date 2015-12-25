@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'settingslogic'
+
 gem 'celluloid'
 
 gem 'rack'

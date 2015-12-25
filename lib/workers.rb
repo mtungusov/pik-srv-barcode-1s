@@ -9,8 +9,8 @@ module Workers
 
   def start_all
     producer_opts = {
-        producer: {'bootstrap.servers' => $kf_con},
-        timeout: 500
+        producer: {'bootstrap.servers' => Settings.connection.kafka},
+        timeout: Settings.connection.timeout_in_ms
     }
     Workers::Producer.supervise as: :kafka_producer, args: [producer_opts]
   end

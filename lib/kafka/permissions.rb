@@ -17,12 +17,7 @@ module Kafka::Permissions
   end
 
   def _topics
-    @topics ||= if ENV['BARCODE_1S_ENV'] == 'development'
-                  TOPICS.keys.map { |t| "dev-#{t}" }
-                else
-                  TOPICS.keys
-                end
-    @topics
+    @topics ||= TOPICS.keys.map { |t| "#{_topic_prefix}#{t}" }
   end
 
   def _fields(topic)
@@ -30,12 +25,11 @@ module Kafka::Permissions
   end
 
   def _topic(topic)
-    if ENV['BARCODE_1S_ENV'] == 'development'
-      # "dev-{topic-name}"
-      topic[4..-1]
-    else
-      topic
-    end
+    _topic_prefix.empty? ? topic : topic[_topic_prefix.length..-1]
+  end
+
+  def _topic_prefix
+    @topic_prefix ||= Settings.namespace == 'development' ? 'dev-': ''
   end
 
   TOPICS = {
