@@ -5,7 +5,10 @@ if ENV['BARCODE_1S_ENV'] == 'development'
   $DEBUG = true
 end
 
-$kf_con = 'kafka.dev:9092'
+# TODO
+# load config
+# $kf_con = 'kafka.dev:9092'
+$kf_con = 'kbr01dsk2.dsk2.picompany.ru:9092,kbr02dsk2.dsk2.picompany.ru:9092,kbr03dsk2.dsk2.picompany.ru:9092'
 
 require 'java'
 require 'celluloid/current'
