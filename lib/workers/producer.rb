@@ -17,10 +17,4 @@ class Workers::Producer
     log.debug "producer sent: #{message}, offset: #{r.offset}" if r && $DEBUG
     [r, e]
   end
-
-  def shutdown
-    log.debug "Shuting down begin..."  if $DEBUG
-    sleep 2.0
-    log.debug "Shuting complete!"  if $DEBUG
-  end
 end

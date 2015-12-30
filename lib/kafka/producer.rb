@@ -13,6 +13,7 @@ class Kafka::Producer
 
   KNOWN_OPTIONS = %w[
     acks
+    client.id
     bootstrap.servers
     compression.type
     key.serializer
@@ -62,7 +63,8 @@ class Kafka::Producer
 
   def _init_options(options)
     opts = options.dup
-    opts['acks'] = opts.fetch('acks', '1')
+    opts['client.id'] = opts.fetch('client.id', '')
+    opts['acks'] = opts.fetch('acks', 'all')
     opts['retries'] = opts.fetch('retries', '0')
     opts['linger.ms'] = opts.fetch('linger.ms', '1')
     opts['key.serializer'] = opts.fetch('key.serializer', 'org.apache.kafka.common.serialization.StringSerializer')

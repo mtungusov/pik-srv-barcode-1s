@@ -1,5 +1,6 @@
 ---
 defaults: &defaults
+  client_name: "barcode-1s"
   connection:
     kafka: "kafka.dev:9092"
     timeout_in_ms: 500

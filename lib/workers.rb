@@ -1,3 +1,5 @@
+require 'socket'
+
 module Workers; end
 
 require 'kafka/producer'
@@ -9,15 +11,25 @@ module Workers
 
   def start_all
     producer_opts = {
-        producer: {'bootstrap.servers' => Settings.connection.kafka},
+        producer: {
+            'bootstrap.servers' => Settings.connection.kafka,
+            'client.id' => "#{IPSocket.getaddress(Socket.gethostname)}-#{Settings.client_name}"
+        },
         timeout: Settings.connection.timeout_in_ms
     }
-    Workers::Producer.supervise as: :kafka_producer, args: [producer_opts]
+    @config ||= Celluloid::Supervision::Configuration.define([
+                                                                 {
+                                                                     type: Workers::Producer,
+                                                                     as: :kafka_producer,
+                                                                     args: [producer_opts]
+                                                                 }
+                                                             ])
+    @config.deploy
   end
 
   def shutdown
     ApiServer.logger.debug "Shutdown workers" if $DEBUG
-    Celluloid::Actor[:kafka_producer].terminate
+    @config.shutdown
   end
 
 end
