@@ -12,7 +12,6 @@ require 'celluloid/current'
 
 $: << 'lib'
 require 'api_server'
-require 'json_rpc'
 require 'workers'
 
 run ApiServer::Application.adapter

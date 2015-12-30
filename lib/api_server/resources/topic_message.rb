@@ -1,4 +1,4 @@
-class Resources::TopicDelete < Resources::JsonAuthResource
+class Resources::TopicMessage < Resources::JsonAuthResource
   def allowed_methods
     %w[DELETE]
   end

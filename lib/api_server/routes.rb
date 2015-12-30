@@ -4,7 +4,7 @@ module ApiServer
       add ['ping'], Resources::Ping
       add ['topics'], Resources::Topics
       add ['topics', :topic], Resources::Topic
-      add ['topics', :topic, :guid], Resources::TopicDelete
+      add ['topics', :topic, :guid], Resources::TopicMessage
     end
 
     app.configure do |config|
