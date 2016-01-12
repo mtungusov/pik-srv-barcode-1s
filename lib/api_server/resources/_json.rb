@@ -5,8 +5,8 @@ require 'stringio'
 module Resources
   API_AUTH_HEADER = /^Api_Auth (.*)$/.freeze
   VALID_CONTENT_TYPES = [
-      "application/json; charset=utf-8",
-      "gzip/json; charset=utf-8"
+      "application/json",
+      "gzip/json"
   ]
 
   class JsonResource < Resources::Resource
@@ -15,7 +15,7 @@ module Resources
     end
 
     def content_types_provided
-      [["application/json; charset=utf-8", :to_json]]
+      [["application/json", :to_json]]
     end
 
     private
@@ -74,6 +74,11 @@ module Resources
         err = {message: e.message}
       end
       [result, err]
+    end
+
+    def _add_headers_for_swagger_editor
+      response.headers['Access-Control-Allow-Origin'] = 'http://editor.swagger.io'
+      response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
     end
   end
 
