@@ -36,9 +36,9 @@ module Resources
 
     def _parse_body(content_type, body)
       case content_type
-        when "application/json; charset=utf-8"
+        when "application/json"
           _parse_json(body)
-        when "gzip/json; charset=utf-8"
+        when "gzip/json"
           _parse_gzip_json(body)
         else
           [nil, {message: "invalid content-type"}]
