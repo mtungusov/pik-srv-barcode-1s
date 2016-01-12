@@ -28,7 +28,7 @@ module Workers
   end
 
   def shutdown
-    ApiServer.logger.debug "Shutdown workers" if $DEBUG
+    ApiServer.log_debug "Shutdown workers"
     @config.shutdown
   end
 

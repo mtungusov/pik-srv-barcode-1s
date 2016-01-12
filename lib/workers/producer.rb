@@ -6,15 +6,14 @@ class Workers::Producer
   attr_reader :producer, :log
 
   def initialize(options)
-    @log = ApiServer.logger
-    log.debug "Producer starting up..." if $DEBUG
+    ApiServer.log_debug "Producer starting up..."
     @producer = Kafka::Producer.new(options[:producer], options[:timeout])
   end
 
   def send_message(topic, key, message)
     r, e = producer.send_message(topic, key, message)
-    log.error e[:error] if e
-    log.debug "producer sent: #{message}, offset: #{r.offset}" if r && $DEBUG
+    ApiServer.log_error e[:error] if e
+    ApiServer.log_debug "producer sent: #{message}, offset: #{r.offset}" if r
     [r, e]
   end
 end

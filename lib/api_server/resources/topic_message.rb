@@ -12,10 +12,10 @@ class Resources::TopicMessage < Resources::JsonAuthResource
     topic, err = _get_topic
     guid = _get_guid unless err
     if err
-      ApiServer.logger.error "Error: #{err}"
+      ApiServer.log_error "Error: #{err}"
       false
     else
-      ApiServer.logger.debug "Delete obj with key: #{guid} from topic: #{topic}" if $DEBUG
+      ApiServer.log_debug "Delete obj with key: #{guid} from topic: #{topic}"
       _process(topic, guid)
     end
   end

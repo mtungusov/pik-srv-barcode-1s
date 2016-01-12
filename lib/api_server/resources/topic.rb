@@ -8,7 +8,7 @@ class Resources::Topic < Resources::JsonAuthResource
     data, err = _get_data unless err
     r = _process(topic, data) unless err
     result = if err
-               ApiServer.logger.error "Error: #{err}"
+               ApiServer.log_error "Error: #{err}"
                {error: err}
              else
                {result: r}
@@ -20,7 +20,7 @@ class Resources::Topic < Resources::JsonAuthResource
   private
 
   def _process(topic, data)
-    ApiServer.logger.debug "Data: #{data}" if $DEBUG
+    ApiServer.log_debug "Data: #{data}"
     data.inject({processed: 0}) do |acc, obj|
       acc[:processed] = acc[:processed].next if _process_one(topic, obj)
       acc
@@ -28,27 +28,27 @@ class Resources::Topic < Resources::JsonAuthResource
   end
 
   def _process_one(topic, obj)
-    ApiServer.logger.debug "Obj: #{obj}" if $DEBUG
+    ApiServer.log_debug "Obj: #{obj}"
     unless ApiServer::Validator.valid_request_data_obj?(topic, obj)
-      ApiServer.logger.error "Invalid obj: #{obj}"
+      ApiServer.log_error "Invalid obj: #{obj}"
       return false
     end
     _add_object_into(topic, obj[:guid], obj)
   rescue Exception => e
-    ApiServer.logger.error "_process_one: #{e.message}"
+    ApiServer.log_error "_process_one: #{e.message}"
     false
   end
 
   def _add_object_into(topic, key, obj)
     m_key = key.to_s
-    ApiServer.logger.debug "Add into topic: #{topic}, key: #{m_key}, obj: #{obj}" if $DEBUG
+    ApiServer.log_debug "Add into topic: #{topic}, key: #{m_key}, obj: #{obj}"
     _, e = Celluloid::Actor[:kafka_producer].send_message(topic, m_key, obj)
     e.nil?
   end
 
   def _get_data
     body, err = _params
-    ApiServer.logger.debug "Body: #{body}" if $DEBUG
+    ApiServer.log_debug "Body: #{body}"
     return [nil, err] if err
     return [nil, {message: 'Invalid or empty body'}] unless ApiServer::Validator.valid_request_body? body
     data = body[:data]

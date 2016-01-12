@@ -11,25 +11,17 @@ module Kafka::Permissions
   end
 
   def valid_topic_fields?(topic, fields)
-    _fields(_topic(topic)).to_set == fields.to_set
+    _fields(topic).to_set == fields.to_set
   rescue
     false
   end
 
   def _topics
-    @topics ||= TOPICS.keys.map { |t| "#{_topic_prefix}#{t}" }
+    @topics ||= TOPICS.keys
   end
 
   def _fields(topic)
     TOPICS[topic]
-  end
-
-  def _topic(topic)
-    _topic_prefix.empty? ? topic : topic[_topic_prefix.length..-1]
-  end
-
-  def _topic_prefix
-    @topic_prefix ||= Settings.namespace == 'development' ? 'dev-': ''
   end
 
   TOPICS = {
