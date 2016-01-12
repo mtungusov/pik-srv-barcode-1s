@@ -4,6 +4,7 @@ class Resources::Topics < Resources::JsonAuthResource
   end
 
   def to_json
+    _add_headers_for_swagger_editor
     {
         result: {
             data: _topics

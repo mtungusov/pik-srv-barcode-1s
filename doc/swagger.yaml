@@ -14,14 +14,37 @@ produces:
 paths:
   /ping:
     get:
-      description: |
-        Return `pong` string.
+      description: 'Return `pong` string.'
       responses:
         '200':
-          description: Pong
+          description: successful operation
           schema:
             type: object
             properties:
               result:
                 type: string
                 default: pong
+  /topics:
+    get:
+      description: |
+        Get list of topics
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: object
+            properties:
+              result:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+      security:
+        - api_key: []
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: Authorization
+    in: header
