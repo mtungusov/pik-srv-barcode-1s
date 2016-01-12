@@ -20,6 +20,7 @@ export KF="kbr01dsk2.dsk2.picompany.ru:9092 kbr02dsk2.dsk2.picompany.ru:9092 kbr
 # Ops
 ```
 ./bin/kafka-simple-consumer-shell.sh --broker-list $KF --partition 0 --topic dev-1s-references-podrazdeleniya
+./bin/kafka-console-consumer.sh --zookeeper $ZK --from-beginning --topic dev-1s-references-podrazdeleniya
 
 ./bin/kafka-topics.sh --zookeeper $ZK --list
 
