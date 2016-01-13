@@ -15,6 +15,6 @@ class Resources::Topics < Resources::JsonAuthResource
   private
 
   def _topics
-    ['topic 1', 'topic 2']
+    Kafka::Permissions.topics
   end
 end

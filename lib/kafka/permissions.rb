@@ -4,7 +4,7 @@ module Kafka::Permissions
   module_function
 
   def valid_topic?(topic)
-    return false unless _topics.include? topic
+    return false unless topics.include? topic
     true
   rescue
     false
@@ -16,7 +16,7 @@ module Kafka::Permissions
     false
   end
 
-  def _topics
+  def topics
     @topics ||= TOPICS.keys
   end
 
