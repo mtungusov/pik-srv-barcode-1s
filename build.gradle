@@ -33,9 +33,20 @@ dependencies {
 //     script "${projectDir}/start.rb"
 // }
 
+task copySrc(type: Copy) {
+    // into('lib') { from 'lib' }
+    from('lib')
+    into('lib/')
+}
+
+// into('libs') {
+//         from configurations.runtime
+//     }
+
 jrubyJar {
     initScript runnable()
     jrubyVersion "9.0.5.0"
     from "config.ru"
+    // from copySrc
     // initScript "${projectDir}/bin/start.rb"
 }
