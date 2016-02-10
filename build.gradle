@@ -36,7 +36,7 @@ dependencies {
 task copySrc(type: Copy) {
     // into('lib') { from 'lib' }
     from('lib')
-    into('lib/')
+    into('lib')
 }
 
 // into('libs') {
@@ -47,6 +47,6 @@ jrubyJar {
     initScript runnable()
     jrubyVersion "9.0.5.0"
     from "config.ru"
-    // from copySrc
+    from copySrc
     // initScript "${projectDir}/bin/start.rb"
 }
