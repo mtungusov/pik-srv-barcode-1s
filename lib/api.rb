@@ -13,6 +13,6 @@ module API
       { result: 'Barcode-1C API Server' }
     end
 
-    mount API::AppV1
+    mount API::V1
   end
 end

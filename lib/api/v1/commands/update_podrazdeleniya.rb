@@ -1,4 +1,4 @@
-class API::AppV1::Commands::UpdatePodrazdeleniya < Grape::API
+class API::V1::Commands::UpdatePodrazdeleniya < Grape::API
   resource :update_podrazdeleniya do
     desc 'Обновить Подразделения'
     params do
@@ -12,7 +12,7 @@ class API::AppV1::Commands::UpdatePodrazdeleniya < Grape::API
       end
     end
     post do
-      { result: { status: :ok, data: params[:params][:data] }, id: params[:id] }
+      { result: { message: :ok, data: params[:params][:data] }, id: params[:id] }
     end
   end
 
