@@ -10,7 +10,7 @@ module API
     format :json
 
     get '/' do
-      { result: 'Barcode 1C API Server' }
+      { result: 'Barcode-1C API Server' }
     end
 
     mount API::AppV1
