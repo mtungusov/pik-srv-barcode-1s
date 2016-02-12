@@ -1,12 +1,18 @@
-require "grape"
+require 'grape'
+require 'json'
+
+module API; end
+require_relative 'api/v1'
 
 module API
-  class AppV1 < Grape::API
+  class App < Grape::API
     prefix 'api'
-    version "v1", using: :path
     format :json
+
     get '/' do
-      'hello, world!!!!'
+      { result: 'Barcode 1C API Server' }
     end
+
+    mount API::AppV1
   end
 end

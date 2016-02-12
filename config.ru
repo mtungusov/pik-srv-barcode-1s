@@ -10,14 +10,12 @@ $ROOT_DIR = "#{__dir__}"
 puts "Dir: #{$ROOT_DIR}"
 
 require_relative "lib/settings"
-
 puts "Namespace: #{Settings.namespace}"
 puts "App: #{$SETTINGS.app_name}"
-puts "Connection: #{$SETTINGS.connection}"
 
 require_relative "lib/trap_signals"
 
 require_relative "lib/api"
-run API::AppV1
+run API::App
 
 require_relative "lib/at_exit_actions"
