@@ -27,6 +27,8 @@ dependencies {
     gems 'rubygems:grape:0.14.0'
     gems 'rubygems:pry:0.10.3'
     gems 'rubygems:settingslogic:2.0.9'
+    gems 'rubygems:celluloid:0.17.3'
+    compile 'org.apache.kafka:kafka-clients:0.9.0.0'
 }
 
 // task startApp(type: JRubyExec) {

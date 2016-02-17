@@ -2,11 +2,14 @@
 defaults: &defaults
   app_name: "barcode-1s"
   connection:
-    kafka: "kafka.dev:9092"
+    kafka: "kafka:9092"
     timeout_in_ms: 500
 
 development:
   <<: *defaults
+  connection:
+    kafka: "dev01dsk2.dsk2.picompany.ru:9092"
+    timeout_in_ms: 500
 
 production:
   <<: *defaults
