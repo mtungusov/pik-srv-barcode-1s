@@ -6,12 +6,12 @@ puts "Start App"
 puts "Java:  #{System.getProperties["java.runtime.version"]}"
 puts "Jruby: #{ENV['RUBY_VERSION']}"
 
-$ROOT_DIR = "#{__dir__}"
-puts "Dir: #{$ROOT_DIR}"
+$root_dir = "#{__dir__}"
+puts "Dir: #{$root_dir}"
 
 require_relative "lib/settings"
 puts "Namespace: #{Settings.namespace}"
-puts "App: #{$SETTINGS.app_name}"
+puts "App: #{$settings.app_name}"
 
 require_relative "lib/trap_signals"
 

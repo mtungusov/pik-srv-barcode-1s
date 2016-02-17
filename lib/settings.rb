@@ -1,6 +1,6 @@
 require "settingslogic"
 
-cur_dir = $ROOT_DIR.include?('uri:classloader:') ? File.split($ROOT_DIR).first : "#{$ROOT_DIR}"
+cur_dir = $root_dir.include?('uri:classloader:') ? File.split($root_dir).first : "#{$root_dir}"
 puts "Cur dir: #{cur_dir}"
 cf = "#{cur_dir}/config/config.yml"
 puts "Config File: #{cf}"
@@ -12,4 +12,4 @@ end
 class Settings < Settingslogic
   namespace ENV['RUN_ENV']
 end
-$SETTINGS = Settings.new cf
+$settings = Settings.new cf

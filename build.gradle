@@ -14,7 +14,7 @@ plugins {
 apply plugin: 'com.github.jruby-gradle.base'
 apply plugin: 'com.github.jruby-gradle.jar'
 
-import com.github.jrubygradle.JRubyExec
+//import com.github.jrubygradle.JRubyExec
 
 configurations {
     compile.extendsFrom jrubyJar
