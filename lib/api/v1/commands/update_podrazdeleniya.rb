@@ -11,9 +11,17 @@ class API::V1::Commands::UpdatePodrazdeleniya < Grape::API
         end
       end
     end
+
     post do
-      { result: { message: :ok, data: params[:params][:data] }, id: params[:id] }
+      topic = '1s-references-podrazdeleniya'
+      data = params[:params][:data]
+      result = data.reduce({}) do |acc, d|
+        r, e = send_to_kafka(topic, d[:guid], d)
+        e.nil? ? acc[:offset] = r.offset : acc[:errors] << e
+        acc
+      end
+
+      { result: result, id: params[:id] }
     end
   end
-
 end

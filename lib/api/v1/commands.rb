@@ -13,7 +13,3 @@ class API::V1::Commands < Grape::API
     mount API::V1::Commands::UpdatePodrazdeleniya
   end
 end
-
-def commands
-  ['update_podrazdeleniya']
-end
