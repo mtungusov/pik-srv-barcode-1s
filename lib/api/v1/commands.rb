@@ -11,5 +11,6 @@ class API::V1::Commands < Grape::API
     end
 
     mount API::V1::Commands::UpdatePodrazdeleniya
+    mount API::V1::Commands::DeletePodrazdeleniya
   end
 end
