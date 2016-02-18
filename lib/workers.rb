@@ -1,5 +1,8 @@
-require 'socket'
-require_relative 'kafka/producer'
+require_relative 'kafka'
+
+require 'pry'
+binding.pry
+
 require 'celluloid/current'
 
 module Workers; end
@@ -13,7 +16,7 @@ module Workers
     producer_opts = {
         producer: {
             'bootstrap.servers' => $settings.connection.kafka,
-            'client.id' => "#{$settings.app_name}-#{IPSocket.getaddress(Socket.gethostname)}"
+            'client.id' => "#{$settings.app_name}-#{Settings.namespace}-#{(1..5).map {rand 9}.join}"
         },
         timeout: $settings.connection.timeout_in_ms
     }
