@@ -13,14 +13,12 @@ require_relative "lib/settings"
 puts "Namespace: #{Settings.namespace}"
 puts "App: #{$settings.app_name}"
 
-# require_relative "lib/trap_signals"
+require_relative "lib/trap_signals"
 
 require_relative 'lib/workers'
+Workers.start_all
 
-# Workers.start_all
-#
-#
-# require_relative "lib/api"
-# run API::App
-#
-# require_relative "lib/at_exit_actions"
+require_relative "lib/api"
+run API::App
+
+require_relative "lib/at_exit_actions"

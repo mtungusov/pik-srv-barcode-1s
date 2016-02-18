@@ -25,7 +25,7 @@ class Kafka::Producer
     serializer.class
   ]
 
-  def initialize(producer_options={}, send_timeout_ms)
+  def initialize(producer_options, send_timeout_ms=500)
     @send_timeout = send_timeout_ms
 
     @producer = KAFKA_PRODUCER.new(Kafka::Helpers::create_config(_init_options(producer_options)))
@@ -54,6 +54,7 @@ class Kafka::Producer
   end
 
   def _init_options(options)
+    fail StandardError.new "Error: producer options is not Hash!" unless options.is_a? Hash
     opts = options.dup
     opts['bootstrap.servers'] = opts.fetch('bootstrap.servers', 'localhost:9092')
     opts['client.id'] = opts.fetch('client.id', '')
