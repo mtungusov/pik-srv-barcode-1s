@@ -1,3 +1,5 @@
+require 'json'
+
 class Workers::Producer
   include Celluloid
 

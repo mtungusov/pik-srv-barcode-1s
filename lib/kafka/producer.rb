@@ -1,5 +1,3 @@
-require 'json'
-
 class Kafka::Producer
   java_import org.apache.kafka.clients.producer.ProducerRecord
   java_import java.util.concurrent.TimeUnit
