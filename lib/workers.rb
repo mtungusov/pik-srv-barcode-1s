@@ -9,6 +9,7 @@ module Workers
   module_function
 
   def start_all
+    p 'Start Workers'
     timeout = $settings.connection.timeout_in_ms
     producer_opts = {
         'bootstrap.servers' => $settings.connection.kafka,
@@ -27,7 +28,10 @@ module Workers
   end
 
   def shutdown
+    p 'Shutdown Workers'
     Celluloid::Actor[:kafka_producer].close
     @config.shutdown
   end
 end
+
+require_relative 'workers/operations'

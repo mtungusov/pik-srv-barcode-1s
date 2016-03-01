@@ -3,7 +3,6 @@ class Kafka::Producer
   java_import java.util.concurrent.TimeUnit
 
   KAFKA_PRODUCER = Java::OrgApacheKafkaClientsProducer::KafkaProducer
-  # KAFKA_PRODUCER = Java::org.apache.kafka.clients.producer.KafkaProducer
 
   REQUIRED_OPTIONS = %w[
     bootstrap.servers
@@ -46,7 +45,7 @@ class Kafka::Producer
     begin
       result = @send_method.call(product_record).get(@send_timeout, TimeUnit::MILLISECONDS)
     rescue Exception => e
-      err = { error: e.message }
+      err = e
     end
     [result, err]
   end

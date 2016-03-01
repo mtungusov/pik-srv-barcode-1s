@@ -5,6 +5,7 @@ Dir["#{File.dirname(File.expand_path(__FILE__))}/commands/*.rb"].each do |f|
 end
 
 class API::V1::Commands < Grape::API
+  helpers CommandsHelpers
   resource :commands do
     get '/' do
       { result: commands }

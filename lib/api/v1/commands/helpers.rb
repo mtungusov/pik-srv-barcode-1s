@@ -1,9 +1,5 @@
 module CommandsHelpers
   def commands
-    ['update_podrazdeleniya']
-  end
-
-  def send_to_kafka(topic, key, message=nil)
-    Celluloid::Actor[:kafka_producer].send_message(topic, key, message)
+    %w[update_podrazdeleniya delete_podrazdeleniya]
   end
 end

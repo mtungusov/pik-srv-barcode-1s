@@ -11,14 +11,7 @@ class API::V1::Commands::DeletePodrazdeleniya < Grape::API
     end
 
     post do
-      topic = '1s-references-podrazdeleniya'
-      data = declared(params).params[:data]
-      result = data.reduce({}) do |acc, d|
-        r, e = send_to_kafka(topic, d[:guid])
-        e.nil? ? acc[:offset] = r.offset : acc[:errors] << e
-        acc
-      end
-
+      result = Workers.update_to '1s-references-podrazdeleniya', :guid, declared(params).params[:data], :delete
       { result: result, id: params[:id] }
     end
   end

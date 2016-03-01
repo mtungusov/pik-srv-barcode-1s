@@ -13,14 +13,7 @@ class API::V1::Commands::UpdatePodrazdeleniya < Grape::API
     end
 
     post do
-      topic = '1s-references-podrazdeleniya'
-      data = declared(params).params[:data]
-      result = data.reduce({}) do |acc, d|
-        r, e = send_to_kafka(topic, d[:guid], d)
-        e.nil? ? acc[:offset] = r.offset : acc[:errors] << e
-        acc
-      end
-
+      result = Workers.update_to '1s-references-podrazdeleniya', :guid, declared(params).params[:data]
       { result: result, id: params[:id] }
     end
   end
