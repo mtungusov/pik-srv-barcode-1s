@@ -1,30 +1,24 @@
-require 'settingslogic'
-require_relative 'lib/settings'
-
-$DEBUG = false
-if Settings.namespace == 'development'
-  require 'pry'
-  $DEBUG = true
-end
-
 require 'java'
-require 'celluloid/current'
 
-$: << 'lib'
-require 'api_server'
-require 'workers'
+java_import java.lang.System
 
-run ApiServer::Application.adapter
+puts "Start App"
+puts "Java:  #{System.getProperties["java.runtime.version"]}"
+puts "Jruby: #{ENV['RUBY_VERSION']}"
+
+$root_dir = "#{__dir__}"
+puts "Dir: #{$root_dir}"
+
+require_relative 'lib/settings'
+puts "Namespace: #{Settings.namespace}"
+puts "App: #{$settings.app_name}"
+
+require_relative 'lib/trap_signals'
+
+require_relative 'lib/workers'
 Workers.start_all
 
-%w{INT TERM QUIT}.each do |signal|
-  trap(signal) do
-    shutdown_app
-    exit!
-  end
-end
+require_relative 'lib/api'
+run API::App
 
-def shutdown_app
-  Workers.shutdown
-  sleep 5
-end
+require_relative "lib/at_exit_actions"
