@@ -32,6 +32,7 @@ export RF=3
 ```
 1s-references-podrazdeleniya
 1s-references-sotrudniki
+barcode-production-in
 ```
 
 # Create topics
@@ -41,4 +42,7 @@ export RF=3
 
 ./bin/kafka-topics.sh --zookeeper $ZK --create --replication-factor $RF --partitions 1 \
 --topic 1s-references-sotrudniki
+
+./bin/kafka-topics.sh --zookeeper $ZK --create --replication-factor $RF --partitions 1 \
+--topic barcode-production-in
 ```

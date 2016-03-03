@@ -15,5 +15,7 @@ class API::V1::Commands < Grape::API
     mount API::V1::Commands::DeletePodrazdeleniya
     mount API::V1::Commands::UpdateSotrudniki
     mount API::V1::Commands::DeleteSotrudniki
+    mount API::V1::Commands::UpdateBarcodesNzp
+    mount API::V1::Commands::DeleteBarcodesNzp
   end
 end
