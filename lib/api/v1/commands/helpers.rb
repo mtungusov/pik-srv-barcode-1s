@@ -1,5 +1,10 @@
 module CommandsHelpers
   def commands
-    %w[update_podrazdeleniya delete_podrazdeleniya]
+    [
+      :update_podrazdeleniya,
+      :delete_podrazdeleniya,
+      :update_sotrudniki,
+      :delete_sotrudniki
+    ]
   end
 end
