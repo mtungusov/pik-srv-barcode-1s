@@ -4,7 +4,8 @@ gem 'settingslogic'
 gem 'grape'
 gem 'puma'
 gem 'celluloid'
-gem 'grape'
+gem 'redis'
+gem 'connection_pool'
 
 group :development do
   gem 'pry'
