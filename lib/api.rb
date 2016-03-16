@@ -1,4 +1,5 @@
 require 'grape'
+require 'grape/middleware/logger'
 require 'json'
 
 module API; end
@@ -6,6 +7,7 @@ require_relative 'api/v1'
 
 module API
   class App < Grape::API
+    use Grape::Middleware::Logger
     prefix 'api'
     format :json
 
